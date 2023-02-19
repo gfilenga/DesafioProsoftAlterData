@@ -15,7 +15,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
+    <ProjectReference Include="..\DevList.Data\DevList.Infra.csproj" />
+    <ProjectReference Include="..\DevList.Domain\DevList.Domain.csproj" />
+    <ProjectReference Include="..\DevList.Service\DevList.Service.csproj" />
   </ItemGroup>
 
 </Project>
