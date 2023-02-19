@@ -1,4 +1,5 @@
-﻿using DevList.Domain.Interfaces;
+﻿using DevList.Api.Messaging;
+using DevList.Domain.Interfaces;
 using DevList.Domain.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,11 +12,13 @@ namespace DevList.Api.Controllers
     {
         private readonly ILogger<DevsController> _logger;
         private readonly IDeveloperService _developerService;
+        private readonly IServiceBusProducer _serviceBusProducer;
 
-        public DevsController(ILogger<DevsController> logger, IDeveloperService developerService)
+        public DevsController(ILogger<DevsController> logger, IDeveloperService developerService, IServiceBusProducer serviceBusProducer)
         {
             _logger = logger;
             _developerService = developerService;
+            _serviceBusProducer = serviceBusProducer;
         }
 
         [HttpGet]
@@ -51,13 +54,19 @@ namespace DevList.Api.Controllers
         }
 
         [HttpPost]
-        public ActionResult<Developer> Insert([FromBody] Developer developer)
+        public async Task<ActionResult<Developer>> InsertAsync([FromBody] Developer developer)
         {
             try
             {
                 _developerService.Insert(developer);
 
-                return Ok();
+                await _serviceBusProducer.SendMessageAsync(new Message
+                {
+                    Action = "POST",
+                    Developer = developer
+                });
+
+                return Ok(developer);
             }
             catch (Exception exception)
             {
@@ -67,13 +76,19 @@ namespace DevList.Api.Controllers
         }
 
         [HttpPut]
-        public ActionResult<Developer> Update([FromBody] Developer developer)
+        public async Task<ActionResult<Developer>> UpdateAsync([FromBody] Developer developer)
         {
             try
             {
                 _developerService.Update(developer);
+                
+                await _serviceBusProducer.SendMessageAsync(new Message
+                {
+                    Action = "PUT",
+                    Developer = developer
+                });
 
-                return Ok();
+                return Ok(developer);
             }
             catch (Exception exception)
             {
@@ -83,13 +98,19 @@ namespace DevList.Api.Controllers
         }
 
         [HttpDelete("{id}")]
-        public ActionResult Delete([FromRoute] Guid id)
+        public async Task<ActionResult> DeleteAsync([FromRoute] Guid id)
         {
             try
             {
                 _developerService.Delete(id);
 
-                return Ok();
+                await _serviceBusProducer.SendMessageAsync(new Message
+                {
+                    Action = "DELETE",
+                    Developer = new Developer { Id = id } 
+                });
+
+                return Ok(id);
             }
             catch (Exception exception)
             {
