@@ -1,4 +1,5 @@
-﻿using DevList.Api.Messaging;
+﻿using DevList.Api.Dtos;
+using DevList.Api.Messaging;
 using DevList.Domain.Interfaces;
 using DevList.Domain.Models;
 using Microsoft.AspNetCore.Http;
@@ -54,10 +55,11 @@ namespace DevList.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Developer>> InsertAsync([FromBody] Developer developer)
+        public async Task<ActionResult<Developer>> InsertAsync([FromBody] CreateDeveloperDto dto)
         {
             try
             {
+                var developer = dto.ToDomain(dto);
                 _developerService.Insert(developer);
 
                 await _serviceBusProducer.SendMessageAsync(new Message
@@ -70,7 +72,7 @@ namespace DevList.Api.Controllers
             }
             catch (Exception exception)
             {
-                _logger.LogError(exception, exception.Message, developer);
+                _logger.LogError(exception, exception.Message, dto);
                 return new StatusCodeResult(500);
             }
         }

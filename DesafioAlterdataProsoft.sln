@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevList.Domain", "src\DevLi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevList.Infra", "src\DevList.Data\DevList.Infra.csproj", "{83E778F3-94BD-480C-9DF0-275FFDB8956D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevList.Service", "src\DevList.Service\DevList.Service.csproj", "{5BCA83D0-B215-4CAF-A177-FF74FCA3C1C8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevList.Service", "src\DevList.Service\DevList.Service.csproj", "{5BCA83D0-B215-4CAF-A177-FF74FCA3C1C8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{6808990C-9D37-4874-918B-3150A427BF68}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
