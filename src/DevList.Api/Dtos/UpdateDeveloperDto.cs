@@ -5,6 +5,8 @@ namespace DevList.Api.Dtos
 {
     public class UpdateDeveloperDto
     {
+        public Guid Id { get; set; }
+
         [Required(ErrorMessage = "O campo {0} é obrigatório")]
         [StringLength(50, ErrorMessage = "O campo {0} só pode ter até {1} caracteres")]
         public string Name { get; set; } = string.Empty;
@@ -27,6 +29,7 @@ namespace DevList.Api.Dtos
         {
             return new Developer
             {
+                Id = dto.Id,
                 Name = dto.Name,
                 Avatar = dto.Avatar,
                 Squad = dto.Squad,
@@ -37,4 +40,4 @@ namespace DevList.Api.Dtos
         }
     }
 }
-}
+
