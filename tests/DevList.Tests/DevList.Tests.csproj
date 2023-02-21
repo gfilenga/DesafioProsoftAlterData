@@ -23,7 +23,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\DevList.Data\DevList.Infra.csproj" />
     <ProjectReference Include="..\..\src\DevList.Domain\DevList.Domain.csproj" />
+    <ProjectReference Include="..\..\src\DevList.Service\DevList.Service.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Services\" />
+    <Folder Include="Repositories\" />
   </ItemGroup>
 
 </Project>
