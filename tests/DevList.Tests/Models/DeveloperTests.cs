@@ -14,7 +14,7 @@ namespace DevList.Tests.Models
             _devFixture = devFixture;
         }
 
-        [Fact]
+        [Fact(DisplayName = "Update UpdatedAt property")]
         public void Developer_UpdateModel_ShouldUpdateTimerField()
         {
             // Arrange
