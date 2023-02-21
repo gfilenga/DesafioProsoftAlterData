@@ -78,10 +78,11 @@ namespace DevList.Api.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult<Developer>> UpdateAsync([FromBody] Developer developer)
+        public async Task<ActionResult<Developer>> UpdateAsync([FromBody] UpdateDeveloperDto dto)
         {
             try
             {
+                var developer = dto.ToDomain(dto);
                 _developerService.Update(developer);
                 
                 await _serviceBusProducer.SendMessageAsync(new Message
@@ -94,7 +95,7 @@ namespace DevList.Api.Controllers
             }
             catch (Exception exception)
             {
-                _logger.LogError(exception, exception.Message, developer);
+                _logger.LogError(exception, exception.Message, dto);
                 return new StatusCodeResult(500);
             }
         }
