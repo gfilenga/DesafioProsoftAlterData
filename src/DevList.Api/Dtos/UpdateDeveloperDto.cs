@@ -19,6 +19,8 @@ namespace DevList.Api.Dtos
         public string? Login { get; set; }
 
         [EmailAddress]
+        [RegularExpression(@"^[a-zA-Z0-9._%+-]+@prosoft\.com\.br$",
+        ErrorMessage = "Email inválido. O email deve terminar com '@prosoft.com.br'.")]
         [StringLength(90, ErrorMessage = "O campo {0} só pode ter até {1} caracteres")]
         public string? Email { get; set; }
 
